@@ -1,6 +1,16 @@
 - name: "Ensure Kong is installed and configured"
   hosts: all
   tasks:
+    - name: "Ensure tools are installed"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "createrepo"
+
+    - name: "Create directory structure"
+      file: path="{{ item }}" state="directory" mode="0755"
+      with_items:
+        - "/var/lib/packages"
+
     - name: "Ensure repository for Cassandra is present"
       copy: src="files/cassandra.repo"
             dest="/etc/yum.repos.d/cassandra.repo"
@@ -24,10 +34,43 @@
     - name: "Ensure Cassandra is running"
       service: name="cassandra" state="running" enabled="yes"
 
-    # Download Kong
-    # Install Kong
-    # Configure Kong
-    # Start Kong 
+    - name: "Ensure repository for Kong is present"
+      copy: src="files/kong.repo"
+            dest="/etc/yum.repos.d/kong.repo"
+            mode=444 owner=root group=root
+      notify:
+        - "Update the yum cache"
+
+    - name: "Ensure Kong is downloaded"
+      command: "wget -O /var/lib/packages/kong.rpm https://github.com/Mashape/kong/releases/download/0.5.3/kong-0.5.3.el7.noarch.rpm"
+      args:
+        creates: "/var/lib/packages/kong.rpm"
+      notify:
+        - "Update local repository"
+
+    - meta: flush_handlers
+
+    - name: "Ensure Kong is installed"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "kong"
+
+    - name: "Ensure Kong is configured"
+      copy: src="files/kong.yml"
+            dest="/etc/kong/kong.yml"
+            mode=444 owner=root group=root
+      notify:
+        - "Restart Kong"
+
+    - name: "Ensure Kong service script is present"
+      copy: src="files/kong.service"
+            dest="/etc/systemd/system/kong.service"
+            mode=444 owner=root group=root
+      notify:
+        - "Restart Kong"
+
+    - name: "Ensure Kong is running"
+      service: name="kong" state="running" enabled="yes"
 
   handlers:
     - name: "Update the yum cache"
@@ -35,3 +78,9 @@
 
     - name: "Restart Cassandra"
       service: name="cassandra" state="restarted"
+
+    - name: "Update local repository"
+      command: "/usr/bin/createrepo /var/lib/packages"
+
+    - name: "Restart Kong"
+      service: name="kong" state="restarted"

@@ -1,0 +1,5 @@
+[kong]
+name=Kong local repository
+baseurl=file:///var/lib/packages
+gpgcheck=0
+enabled=1

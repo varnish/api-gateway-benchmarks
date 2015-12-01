@@ -1,0 +1,15 @@
+[Unit]
+Description=Kong API Gateway
+After=network.target
+After=cassandra.service
+Requires=cassandra.service
+
+[Service]
+ExecStart=/usr/local/bin/kong start
+ExecStop=/usr/local/bin/kong stop
+ExecReload=/usr/local/bin/kong reload
+Type=forking
+PIDFile=/usr/local/kong/kong.pid
+
+[Install]
+WantedBy=default.target
