@@ -1,0 +1,45 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+def linux config, ip, box, hostname, box_url
+  config.vm.define hostname.to_sym do |c|
+    # Give the VM a public or private IP address. PS: By default, the vagrant
+    # images are not secure to expose as they allow login with known keys and 
+    # passwords.
+    #c.vm.network :public_network
+    c.vm.network :private_network, ip: ip
+
+    # Sync our top folder
+    c.vm.synced_folder "../../", "/vagrant", owner: "root", group: "root"
+
+    # Force the VM names instead of using generated ones. May cause problems
+    # if running the same VM in different vagrant projects.
+    #c.vm.provider :virtualbox do |v|
+    #  v.customize ['modifyvm', :id, '--name', box.to_sym]
+    #end
+
+    # Memory (MB) and CPU (vCPU) allocation
+    c.vm.provider :virtualbox do |v|
+      v.memory = 2048
+      v.cpus = 1
+    end
+
+    c.vm.box_url = box_url
+    c.vm.box = box
+    c.vm.hostname = '%s.local' % hostname.to_sym
+    c.vm.boot_timeout = 900
+
+    # Useful when rebuilding image based on existing box
+    # to not overwrite the insecure pubkey from:
+    # https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub
+    #
+    #c.ssh.insert_key = false
+  end
+end
+
+# hostname, ip, box, box_url, checksum
+Vagrant.configure('2') do |config|
+  linux config, '10.11.12.20', 'varnish/centos-7-amd64', 'consumer', 'https://images.varnish-software.com/vagrant/centos-7-amd64.json'
+  linux config, '10.11.12.21', 'varnish/centos-7-amd64', 'gateway', 'https://images.varnish-software.com/vagrant/centos-7-amd64.json'
+  linux config, '10.11.12.22', 'varnish/centos-7-amd64', 'webserver', 'https://images.varnish-software.com/vagrant/centos-7-amd64.json'
+end
