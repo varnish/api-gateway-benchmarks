@@ -1,4 +1,4 @@
-- name: "Ensure Kong is installed and configured"
+- name: "Setup Kong"
   hosts: all
   tasks:
     - name: "Ensure tools are installed"
@@ -7,7 +7,7 @@
         - "createrepo"
 
     - name: "Create directory structure"
-      file: path="{{ item }}" state="directory" mode="0755"
+      file: path="{{ item }}" state="directory" mode="0755"
       with_items:
         - "/var/lib/packages"
 
