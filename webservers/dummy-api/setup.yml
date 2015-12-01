@@ -1,0 +1,42 @@
+- name: "Setup Dummy-API"
+  hosts: all
+  environment:
+    GOPATH: "/usr/local/go"
+    #PATH: "${PATH}:${GOPATH}/bin"
+  tasks:
+    - name: "Ensure tools are installed"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "git"
+        - "golang"
+
+    - name: "Create directory structure"
+      file: path="{{ item }}" state="directory" mode="0755"
+      with_items:
+        - "/usr/local/go"
+        - "/usr/local/go/src"
+        - "/usr/local/go/pkg"
+        - "/usr/local/go/bin"
+
+    - name: "Download and install Dummy-API"
+      command: "/bin/go get github.com/espebra/dummy-api"
+      args:
+        creates: "/usr/local/go/src/github.com/espebra/dummy-api/"
+
+    - name: "Ensure the dummy-api user is present"
+      user: name="dummy-api" comment="Dummy API system user"
+            system="yes" state="present"
+
+    - name: "Ensure Dummy-API service script is present"
+      copy: src="files/dummy-api.service"
+            dest="/etc/systemd/system/dummy-api.service"
+            mode=444 owner=root group=root
+      notify:
+        - "Restart Dummy-API"
+
+    - name: "Ensure Dummy-API is running"
+      service: name="dummy-api" state="running" enabled="yes"
+
+  handlers:
+    - name: "Restart Dummy-API"
+      service: name="dummy-api" state="restarted"

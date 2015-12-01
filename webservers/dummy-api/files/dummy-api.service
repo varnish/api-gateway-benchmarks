@@ -1,0 +1,15 @@
+[Unit]
+Description=Dummy API
+After=network.target
+
+[Service]
+ExecStart=/usr/local/go/bin/dummy-api --host 0.0.0.0 --port 8080
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=dummy-api
+PrivateTmp=true
+User=dummy-api
+Group=dummy-api
+
+[Install]
+WantedBy=multi-user.target
