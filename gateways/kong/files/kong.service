@@ -10,6 +10,8 @@ ExecStop=/usr/local/bin/kong stop
 ExecReload=/usr/local/bin/kong reload
 Type=forking
 PIDFile=/usr/local/kong/kong.pid
+User=kong
+Group=kong
 
 [Install]
 WantedBy=default.target

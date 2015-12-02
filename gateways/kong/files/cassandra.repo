@@ -1,5 +1,5 @@
 [datastax]
-name = DataStax Repo for Apache Cassandra
-baseurl = http://rpm.datastax.com/community
-enabled = 1
-gpgcheck = 0
+name=DataStax Repo for Apache Cassandra
+baseurl=http://rpm.datastax.com/community
+enabled=1
+gpgcheck=0

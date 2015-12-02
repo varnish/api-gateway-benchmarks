@@ -55,6 +55,10 @@
       with_items:
         - "kong"
 
+    - name: "Ensure the kong user is present"
+      user: name="kong" comment="kong system user"
+            system="yes" state="present"
+
     - name: "Ensure Kong is configured"
       copy: src="files/kong.yml"
             dest="/etc/kong/kong.yml"
