@@ -1,0 +1,15 @@
+{
+    "name": "test01",
+    "api_id": "1",
+    "org_id": "default",
+    "definition": {
+        "location": "",
+        "key": ""
+    },
+    "use_keyless": true,
+    "proxy": {
+        "listen_path": "/test01",
+        "target_url": "http://webserver:8888/",
+        "strip_listen_path": false
+    }
+}

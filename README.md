@@ -66,9 +66,7 @@ Configuration for each web server is put in subdirectories in the ``webservers/`
 
 #### Gateways
 
-Configuration for each API gateway is put in subdirectories in the ``gateways/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and start the gateway. The file ``configure`` should exist in the same directory, and when executed it should configure the gateway according to the tests.
-
-The configuration should be according to the specification of one or more of the tests.
+Configuration for each API gateway is put in subdirectories in the ``gateways/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install, configure and start the gateway. It should also define the APIs and policies needed for the tests.
 
 | Property    |   Value |
 |-------------|---------|
@@ -111,7 +109,6 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
     vagrant ssh gateway
     cd /vagrant/gateways/kong
     sudo ./deploy
-    sudo ./configure
     exit
 
     vagrant ssh webserver
