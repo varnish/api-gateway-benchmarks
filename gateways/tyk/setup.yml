@@ -26,12 +26,12 @@
         - "tyk-gateway"
         #- "tyk-dashboard"
 
-    - name: "Ensure tyk-gateway is configured"
-      copy: src="files/tyk-gateway.conf"
-            dest="/opt/tyk-gateway/tyk.conf"
-            mode=444 owner=root group=root
-      notify:
-        - "Restart tyk-gateway"
+    #- name: "Ensure tyk-gateway is configured"
+    #  copy: src="files/tyk-gateway.conf"
+    #        dest="/opt/tyk-gateway/tyk.conf"
+    #        mode=444 owner=root group=root
+    #  notify:
+    #    - "Restart tyk-gateway"
 
     - name: "Ensure that the API definitions are present"
       copy: src="files/apps/" dest="/etc/tyk/apps/" mode="0444"

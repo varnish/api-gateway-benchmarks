@@ -10,20 +10,6 @@
     "auth": {
         "auth_header_name": ""
     },
-    "version_data": {
-        "not_versioned": true,
-        "versions": {
-            "Default": {
-                "name": "Default",
-                "expires": "3000-01-02 15:04",
-                "paths": {
-                    "ignored": [],
-                    "white_list": [],
-                    "black_list": []
-                }
-            }
-        }
-    },
     "proxy": {
         "listen_path": "/test04",
         "target_url": "http://webserver:8888/",
