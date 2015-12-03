@@ -1,0 +1,56 @@
+- name: "Setup Tyk"
+  hosts: all
+  tasks:
+    - name: "Ensure repository for Mongo is present"
+      copy: src="files/mongodb-org-3.0.repo"
+            dest="/etc/yum.repos.d/mongodb-org-3.0.repo"
+            mode=444 owner=root group=root
+      notify:
+        - "Update the yum cache"
+
+    - name: "Ensure repository for Tyk is present"
+      copy: src="files/tyk.repo"
+            dest="/etc/yum.repos.d/tyk.repo"
+            mode=444 owner=root group=root
+      notify:
+        - "Update the yum cache"
+
+    - name: "Ensure tools are installed"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "pygpgme"
+        - "yum-utils"
+        - "wget"
+        - "redis"
+        - "mongodb-org"
+        - "tyk-gateway"
+        - "tyk-dashboard"
+
+    - name: "Ensure tyk-gateway is configured"
+      copy: src="files/tyk-gateway.conf"
+            dest="/opt/tyk-gateway/tyk.conf"
+            mode=444 owner=root group=root
+      notify:
+        - "Restart tyk-gateway"
+
+    - name: "Ensure services are running"
+      service: name="{{ item }}" state="running" enabled="yes"
+      with_items:
+        - "mongod"
+        - "redis"
+
+    - name: "Ensure services are running"
+      service: name="{{ item }}" state="running" enabled="yes"
+      with_items:
+        - "tyk-gateway"
+        - "tyk-dashboard"
+
+  handlers:
+    - name: "Update the yum cache"
+      command: "yum clean metadata"
+
+    - name: "Restart tyk-gateway"
+      service: name="tyk-gateway" state="restarted"
+
+    - name: "Restart tyk-dashboard"
+      service: name="tyk-dashboard" state="restarted"

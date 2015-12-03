@@ -1,0 +1,22 @@
+[tyk-gateway]
+name=tyk-gateway
+baseurl=https://packagecloud.io/tyk/tyk-gateway/el/$releasever/$basearch
+#repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=http://keyserver.tyk.io/tyk.io.rpm.signing.key
+       https://packagecloud.io/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+
+[tyk-dashboard]
+name=tyk-dashboard
+baseurl=https://packagecloud.io/tyk/tyk-dashboard/el/$releasever/$basearch
+#repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=http://keyserver.tyk.io/tyk.io.rpm.signing.key
+       https://packagecloud.io/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+
