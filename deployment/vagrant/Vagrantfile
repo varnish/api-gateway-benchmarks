@@ -29,6 +29,12 @@ def linux config, ip, box, hostname, box_url
     c.vm.hostname = '%s.local' % hostname.to_sym
     c.vm.boot_timeout = 900
 
+    # Deploy vagrant environment specific configuration
+    c.vm.provision "setup", type: "ansible" do |ansible|
+      ansible.sudo = true
+      ansible.playbook = "ansible/setup.yml"
+    end
+
     # Useful when rebuilding image based on existing box
     # to not overwrite the insecure pubkey from:
     # https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub
