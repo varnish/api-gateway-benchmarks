@@ -69,6 +69,24 @@ The configuration should be according to the specification of one or more of the
 
 #### Consumers
 
+Configuration for each consumer is put in subdirectories in the ``consumers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and prepare the consumer.
+
+Wrappers to run the different tests should be put in ``/usr/local/bin/`` and named ``test00``, ``test01``, ...
+
+###### Reference test (``test00``)
+
+| Property    |     Value |
+|-------------|-----------|
+| Target host | webserver |
+| Target port |      8888 |
+
+###### Tests (``test01, ...``)
+
+| Property    |   Value |
+|-------------|---------|
+| Target host | gateway |
+| Target port |    8080 |
+
 ## Deployment requirements
 
 * Three instances running CentOS 7 x86_64
@@ -85,6 +103,7 @@ The configuration should be according to the specification of one or more of the
     vagrant ssh gateway
     cd /vagrant/gateways/kong
     ./deploy
+    ./configure
     exit
 
     vagrant ssh webserver
