@@ -10,6 +10,15 @@
     "auth": {
         "auth_header_name": "apikey"
     },
+    "version_data": {
+        "not_versioned": true,
+        "versions": {
+            "Default": {
+                "name": "Default",
+                "use_extended_paths": true
+            }
+        }
+    },
     "proxy": {
         "listen_path": "/test02",
         "target_url": "http://webserver:8888/",

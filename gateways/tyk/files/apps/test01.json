@@ -7,6 +7,15 @@
         "key": ""
     },
     "use_keyless": true,
+    "version_data": {
+        "not_versioned": true,
+        "versions": {
+            "Default": {
+                "name": "Default",
+                "use_extended_paths": true
+            }
+        }
+    },
     "proxy": {
         "listen_path": "/test01",
         "target_url": "http://webserver:8888/",

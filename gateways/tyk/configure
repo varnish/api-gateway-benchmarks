@@ -1,0 +1,76 @@
+#!/bin/bash -x
+
+# test02
+curl -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
+    -s \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d '{
+            "allowance": 1000,
+            "rate": 1000,
+            "per": 1,
+            "expires": -1,
+            "quota_max": -1,
+            "quota_renews": 1449051461,
+            "quota_remaining": -1,
+            "quota_renewal_rate": 60,
+            "access_rights": {
+                "2": {
+                    "api_id": "2",
+                    "api_name": "Test API",
+                    "versions": ["Default"]
+                }
+            },
+            "meta_data": {}
+        }' \
+     http://localhost:8080/tyk/keys/create
+
+# test03
+curl -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
+    -s \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d '{
+            "allowance": 1000,
+            "rate": 1000,
+            "per": 1,
+            "expires": -1,
+            "quota_max": -1,
+            "quota_renews": 1449051461,
+            "quota_remaining": -1,
+            "quota_renewal_rate": 60,
+            "access_rights": {
+                "3": {
+                    "api_id": "3",
+                    "api_name": "Test API",
+                    "versions": ["Default"]
+                }
+            },
+            "meta_data": {}
+        }' \
+     http://localhost:8080/tyk/keys/create
+
+# test04
+curl -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
+    -s \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d '{
+            "allowance": 1000,
+            "rate": 1000,
+            "per": 1,
+            "expires": -1,
+            "quota_max": -1,
+            "quota_renews": 1449051461,
+            "quota_remaining": -1,
+            "quota_renewal_rate": 60,
+            "access_rights": {
+                "4": {
+                    "api_id": "4",
+                    "api_name": "Test API",
+                    "versions": ["Default"]
+                }
+            },
+            "meta_data": {}
+        }' \
+     http://localhost:8080/tyk/keys/create

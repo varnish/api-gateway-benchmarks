@@ -6,9 +6,18 @@
         "location": "",
         "key": ""
     },
-    "use_keyless": true,
+    "use_keyless": false,
     "auth": {
-        "auth_header_name": ""
+        "auth_header_name": "apikey"
+    },
+    "version_data": {
+        "not_versioned": true,
+        "versions": {
+            "Default": {
+                "name": "Default",
+                "use_extended_paths": true
+            }
+        }
     },
     "proxy": {
         "listen_path": "/test03",
