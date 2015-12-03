@@ -73,18 +73,37 @@ The configuration should be according to the specification of one or more of the
 
 * Three instances running CentOS 7 x86_64
 
-## Deployment
+## Deployment example (vagrant)
 
-### Gateways
+###### Build environment
 
-#### Kong
+    cd deployment/vagrant
+    vagrant up
 
-    cd gateways/kong
+###### Deploy components
+
+    vagrant ssh gateway
+    cd /vagrant/gateways/kong
     ./deploy
+    exit
 
-### Webservers
-
-#### Dummy API
-
-    cd webservers/dummy-api
+    vagrant ssh webserver
+    cd /vagrant/webservers/dummy-api
     ./deploy
+    exit
+
+    vagrant ssh consumer
+    cd /vagrant/consumers/boom
+    ./deploy
+    exit
+
+###### Run tests
+
+    vagrant ssh consumer
+    /usr/local/bin/test00
+    /usr/local/bin/test01
+    /usr/local/bin/test02
+    /usr/local/bin/test03
+    /usr/local/bin/test04
+    exit
+
