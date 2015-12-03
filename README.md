@@ -10,7 +10,15 @@ It was inspired by the great [Framework Benchmarks project](https://github.com/T
 
 ### Tests
 
-#### 1. HTTP routing
+#### test00: Reference
+
+Requests sent directly from the consumer to the webserver.
+
+| Property    |                            Value |
+|-------------|----------------------------------|
+| Request     | GET http://webserver:8888/test00 |
+
+#### test01: HTTP routing
 
 Proxy incoming requests to an upstream webserver.
 
@@ -18,7 +26,7 @@ Proxy incoming requests to an upstream webserver.
 |-------------|--------------------------------|
 | Request     | GET http://gateway:8080/test01 |
 
-#### 2. Authentication (API-key) and authorization
+#### test02: Authentication (API-key) and authorization
 
 Authentication and authorization, and proxying to an upstream webserver.
 
@@ -27,7 +35,7 @@ Authentication and authorization, and proxying to an upstream webserver.
 | Request     | GET http://gateway:8080/test02 |
 | Header      | apikey=key02                   |
 
-#### 3. Rate limiting (high limit)
+#### test03: Rate limiting (high limit)
 
 Rate limiting, authentication and authorization, and proxying to an upstream webserver. None of the requests should exceed the rate limitation.
 
@@ -36,7 +44,7 @@ Rate limiting, authentication and authorization, and proxying to an upstream web
 | Request     | GET http://gateway:8080/test03 |
 | Header      | apikey=key03                   |
 
-#### 4. Rate limiting (low limit)
+#### test04: Rate limiting (low limit)
 
 Rate limiting, authentication and authorization, and proxying to an upstream webserver. Most of the requests should exceed the rate limitation.
 
@@ -102,27 +110,27 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
 
     vagrant ssh gateway
     cd /vagrant/gateways/kong
-    ./deploy
-    ./configure
+    sudo ./deploy
+    sudo ./configure
     exit
 
     vagrant ssh webserver
     cd /vagrant/webservers/dummy-api
-    ./deploy
+    sudo ./deploy
     exit
 
     vagrant ssh consumer
     cd /vagrant/consumers/boom
-    ./deploy
+    sudo ./deploy
     exit
 
 ###### Run tests
 
     vagrant ssh consumer
-    /usr/local/bin/test00
-    /usr/local/bin/test01
-    /usr/local/bin/test02
-    /usr/local/bin/test03
-    /usr/local/bin/test04
+    sudo /usr/local/bin/test00
+    sudo /usr/local/bin/test01
+    sudo /usr/local/bin/test02
+    sudo /usr/local/bin/test03
+    sudo /usr/local/bin/test04
     exit
 
