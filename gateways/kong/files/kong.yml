@@ -25,7 +25,7 @@ plugins_available:
 nginx_working_dir: /usr/local/kong/
 
 ## Port configuration
-proxy_port: 8000
+proxy_port: 8080
 proxy_ssl_port: 8443
 admin_api_port: 8001
 

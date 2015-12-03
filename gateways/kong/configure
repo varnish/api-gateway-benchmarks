@@ -1,23 +1,23 @@
 #!/bin/bash -x
 
 # Test 1
-curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test01' --data 'upstream_url=http://webserver:8080/test01' --data 'name=test01'
+curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test01' --data 'upstream_url=http://webserver:8888/test01' --data 'name=test01'
 
 # Test 2
-curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test02' --data 'upstream_url=http://webserver:8080/test02' --data 'name=test02'
+curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test02' --data 'upstream_url=http://webserver:8888/test02' --data 'name=test02'
 curl -i -X POST http://localhost:8001/apis/test02/plugins --data "name=key-auth" # Enable key based authentication
 curl -i -X POST http://localhost:8001/consumers/ --data "username=test02" # Create consumer
 curl -i -X POST http://localhost:8001/consumers/test02/key-auth --data "key=key02" # Set the API key
 
 # Test 3
-curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test03' --data 'upstream_url=http://webserver:8080/test03' --data 'name=test03'
+curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test03' --data 'upstream_url=http://webserver:8888/test03' --data 'name=test03'
 curl -i -X POST http://localhost:8001/apis/test03/plugins --data "name=key-auth" # Enable key based authentication
 curl -i -X POST http://localhost:8001/consumers/ --data "username=test03" # Create consumer
 curl -i -X POST http://localhost:8001/consumers/test03/key-auth --data "key=key03" # Set the API key
 curl -i -X POST http://localhost:8001/apis/test03/plugins --data "name=rate-limiting" --data "config.minute=60000000" # 1M per second on avg, rate limiting
 
 # Test 4
-curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test04' --data 'upstream_url=http://webserver:8080/test04' --data 'name=test04'
+curl -i -X POST http://localhost:8001/apis/ --data 'request_path=/test04' --data 'upstream_url=http://webserver:8888/test04' --data 'name=test04'
 curl -i -X POST http://localhost:8001/apis/test04/plugins --data "name=key-auth" # Enable key based authentication
 curl -i -X POST http://localhost:8001/consumers/ --data "username=test04" # Create consumer
 curl -i -X POST http://localhost:8001/consumers/test04/key-auth --data "key=key04" # Set the API key
