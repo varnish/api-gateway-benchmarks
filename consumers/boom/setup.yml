@@ -1,0 +1,26 @@
+- name: "Setup Boom"
+  hosts: all
+  environment:
+    GOPATH: "/usr/local/go"
+  tasks:
+    - name: "Ensure tools are installed"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "git"
+        - "golang"
+
+    - name: "Create directory structure"
+      file: path="{{ item }}" state="directory" mode="0755"
+      with_items:
+        - "/usr/local/go"
+        - "/usr/local/go/src"
+        - "/usr/local/go/pkg"
+        - "/usr/local/go/bin"
+
+    - name: "Download and install Dummy-API"
+      command: "/bin/go get github.com/espebra/boom"
+      args:
+        creates: "/usr/local/go/src/github.com/espebra/boom/"
+
+    - name: "Ensure that test wrappers are present"
+      copy: src="files/tests/" dest="/usr/local/bin/" mode="0555"

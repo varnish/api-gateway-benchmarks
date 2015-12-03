@@ -1,0 +1,4 @@
+#!/bin/bash
+
+BOOM="/usr/local/go/bin/boom"
+$BOOM -n 1000000 -c 100 http://webserver:8888/test00

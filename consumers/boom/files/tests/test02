@@ -1,0 +1,4 @@
+#!/bin/bash
+
+BOOM="/usr/local/go/bin/boom"
+$BOOM -n 1000000 -c 100 -h "apikey:key02" http://gateway:8080/test02
