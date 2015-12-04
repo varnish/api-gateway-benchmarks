@@ -77,16 +77,16 @@ Configuration for each API gateway is put in subdirectories in the ``gateways/``
 
 Configuration for each consumer is put in subdirectories in the ``consumers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and prepare the consumer.
 
-Wrappers to run the different tests should be put in ``/usr/local/bin/`` and named ``test00``, ``test01``, ...
+Wrappers to run the different tests should be put in ``/usr/local/bin/`` and named ``test00``, ``test01``, ..., ``textXX``.
 
-###### Reference test (``test00``)
+**Reference test** (``test00``):
 
 | Property    |     Value |
 |-------------|-----------|
 | Target host | webserver |
 | Target port |      8888 |
 
-###### Tests (``test01, ...``)
+**Other tests** (``test01, ...``):
 
 | Property    |   Value |
 |-------------|---------|
@@ -99,21 +99,21 @@ Three instances running CentOS 7 x86_64 are needed to execute the tests, each wh
 
 ### Deployment example (vagrant)
 
-###### 1. Install dependencies
+**1. Install dependencies**
 
 * Install [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
 * Install [Virtualbox guest additions](https://www.virtualbox.org/wiki/Downloads).
 * Install [Vagrant](https://www.vagrantup.com/).
 * Clone this git repository (``git clone https://github.com/varnish/api-gateway-benchmarks``).
 
-###### 2. Preapre virtual environment
+**2. Prepare virtual environment**
 
 Build the three virtual instances using Vagrant.
 
     cd deployment/vagrant
     vagrant up
 
-###### 3. Deploy components
+**3. Deploy components**
 
     vagrant ssh gateway
     cd /vagrant/gateways/kong
@@ -130,7 +130,7 @@ Build the three virtual instances using Vagrant.
     sudo ./deploy
     exit
 
-###### 4. Run tests
+**4. Run tests**
 
     vagrant ssh consumer
     sudo /usr/local/bin/test00
@@ -140,7 +140,7 @@ Build the three virtual instances using Vagrant.
     sudo /usr/local/bin/test04
     exit
 
-###### 5. Interpret results
+**5. Interpret results**
 
 Currently this is a manual process. The goal is to automate it.
 
