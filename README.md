@@ -10,7 +10,7 @@ It was inspired by the great [Framework Benchmarks project](https://github.com/T
 
 ## Tests
 
-### Test 00: Reference
+**Test 00: Reference**
 
 Requests sent directly from the consumer to the webserver.
 
@@ -18,7 +18,7 @@ Requests sent directly from the consumer to the webserver.
 |-------------|----------------------------------|
 | Request     | GET http://webserver:8888/test00 |
 
-### Test 01: HTTP routing
+**Test 01: HTTP routing**
 
 Proxy incoming requests to an upstream webserver.
 
@@ -26,7 +26,7 @@ Proxy incoming requests to an upstream webserver.
 |-------------|--------------------------------|
 | Request     | GET http://gateway:8080/test01 |
 
-### Test 02: Authentication (API-key) and authorization
+**Test 02: Authentication (API-key) and authorization**
 
 Authentication and authorization, and proxying to an upstream webserver.
 
@@ -35,7 +35,7 @@ Authentication and authorization, and proxying to an upstream webserver.
 | Request     | GET http://gateway:8080/test02 |
 | Header      | apikey=key02                   |
 
-### Test 03: Rate limiting (high limit)
+**Test 03: Rate limiting (high limit)**
 
 Rate limiting, authentication and authorization, and proxying to an upstream webserver. None of the requests should exceed the rate limitation.
 
@@ -44,7 +44,7 @@ Rate limiting, authentication and authorization, and proxying to an upstream web
 | Request     | GET http://gateway:8080/test03 |
 | Header      | apikey=key03                   |
 
-### Test 04: Rate limiting (low limit)
+**Test 04: Rate limiting (low limit)**
 
 Rate limiting, authentication and authorization, and proxying to an upstream webserver. Most of the requests should exceed the rate limitation.
 
@@ -53,29 +53,13 @@ Rate limiting, authentication and authorization, and proxying to an upstream web
 | Request     | GET http://gateway:8080/test04 |
 | Header      | apikey=key04                   |
 
-## Setup requirements
+## Components
 
-### Web servers
-
-Configuration for each web server is put in subdirectories in the ``webservers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install, configure and start the web server.
-
-| Property    |   Value |
-|-------------|---------|
-| Listen host | 0.0.0.0 |
-| Listen port |    8888 |
-
-### Gateways
-
-Configuration for each API gateway is put in subdirectories in the ``gateways/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install, configure and start the gateway. It should also define the APIs and policies needed for the tests.
-
-| Property    |   Value |
-|-------------|---------|
-| Listen host | 0.0.0.0 |
-| Listen port |    8080 |
+There are three roles involved; consumers, gateways and webservers.
 
 ### Consumers
 
-Configuration for each consumer is put in subdirectories in the ``consumers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and prepare the consumer.
+Configuration for each type of consumer is put in subdirectories in the ``consumers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and prepare the consumer for load generation.
 
 Wrappers to run the different tests should be put in ``/usr/local/bin/`` and named ``test00``, ``test01``, ..., ``textXX``.
 
@@ -83,6 +67,7 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
 
 | Property    |     Value |
 |-------------|-----------|
+| Protocol    |      http |
 | Target host | webserver |
 | Target port |      8888 |
 
@@ -90,8 +75,29 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
 
 | Property    |   Value |
 |-------------|---------|
+| Protocol    |    http |
 | Target host | gateway |
 | Target port |    8080 |
+
+### Gateways
+
+Configuration for each API gateway is put in subdirectories in the ``gateways/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install, configure and start the gateway. It should also define the APIs and policies needed for the tests.
+
+| Property    |   Value |
+|-------------|---------|
+| Protocol    |    http |
+| Listen host | 0.0.0.0 |
+| Listen port |    8080 |
+
+### Webservers
+
+Configuration for each web server is put in subdirectories in the ``webservers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install, configure and start the web server.
+
+| Property    |   Value |
+|-------------|---------|
+| Protocol    |    http |
+| Listen host | 0.0.0.0 |
+| Listen port |    8888 |
 
 ## Execution
 
@@ -118,6 +124,7 @@ Build the three virtual instances using Vagrant.
 **3. Deploy components**
 
     vagrant ssh gateway
+    # Using Kong in this example. Tyk is also available in the tyk directory.
     cd /vagrant/gateways/kong
     sudo ./deploy
     exit
