@@ -63,7 +63,7 @@ The requests should be sent from the consumer according to the following specifi
 | Request path   |      /test02 |
 | Headers        | apikey=key02 |
 
-The gateway should verify the specified key, accept the requests and proxy them to ``http://webserver:8888/test01``. The webserver should accept the requests and reply with ``200 OK``.
+The gateway should verify the specified key, accept the requests and proxy them to ``http://webserver:8888/test02``. The webserver should accept the requests and reply with ``200 OK``.
 
 **Test 03: Key based auth and rate limiting (high limit)**
 
@@ -80,7 +80,7 @@ The requests should be sent from the consumer according to the following specifi
 | Request path   |      /test03 |
 | Headers        | apikey=key03 |
 
-The gateway should verify the specified key, accept the requests, count them and proxy them to ``http://webserver:8888/test01``. The webserver should accept the requests and reply with ``200 OK``.
+The gateway should verify the specified key, accept the requests, count them and proxy them to ``http://webserver:8888/test03``. The webserver should accept the requests and reply with ``200 OK``.
 
 **Test 04: Key based auth and rate limit of 1 rps**
 
@@ -97,7 +97,7 @@ The requests should be sent from the consumer according to the following specifi
 | Request path   |      /test04 |
 | Headers        | apikey=key04 |
 
-The gateway should verify the specified key, and allow only one request per second. This one request per second should be proxied to ``http://webserver:8888/test01``. The webserver should accept the requests and reply with ``200 OK``. The requests exceeding the rate limit should be rejected.
+The gateway should verify the specified key, and allow only one request per second. This one request per second should be proxied to ``http://webserver:8888/test04``. The webserver should accept the requests and reply with ``200 OK``. The requests exceeding the rate limit should be rejected.
 
 ## Roles specification
 
