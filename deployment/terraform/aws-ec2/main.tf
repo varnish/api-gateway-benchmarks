@@ -15,26 +15,30 @@ resource "aws_instance" "apiperf" {
     ami = "${var.aws_ec2_ami}"
     instance_type = "${lookup(var.instance_types, count.index)}"
     key_name = "apiperftestkey"
+    user_data = "${file("aws-ec2/userdata.sh")}"
     tags {
         name = "${lookup(var.instance_names, count.index)}"
     }
     provisioner "local-exec" {
         command = "echo ${self.private_ip} ${lookup(var.instance_names, count.index)} > hosts/${lookup(var.instance_names, count.index)}"
     }
-    provisioner "file" {
-        connection {
-            user = "centos"
-        }
-        source = "hosts"
-        destination = "/tmp"
-    }
-    provisioner "remote-exec" {
-        connection {
-            user = "centos"
-        }
-        inline = [
-            "sudo cat /tmp/hosts/* >> /etc/hosts",
-            "sudo service firewalld stop"
-        ]
-    }
+#    provisioner "file" {
+#        connection {
+#            user = "centos"
+#        }
+#        source = "hosts"
+#        destination = "/tmp"
+#    }
+#    provisioner "remote-exec" {
+#        connection {
+#            user = "centos"
+#        }
+#        inline = [
+#            "sudo cp /etc/hosts /tmp/newhostsfile",
+#            "sudo chown centos /tmp/newhostsfile",
+#            "cat /tmp/hosts/* >> /tmp/newhostsfile",
+#            "sudo cp /tmp/newhostsfile /etc/hosts",
+#            "sudo chown root /etc/hosts"
+#        ]
+#    }
 }
