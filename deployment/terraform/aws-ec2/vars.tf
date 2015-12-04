@@ -19,7 +19,7 @@ variable "sshkey" {
 }
 variable "count" {
     description = "Number of instances to create"
-    default = "1"
+    default = "3"
 }
 
 variable "instance_names" {

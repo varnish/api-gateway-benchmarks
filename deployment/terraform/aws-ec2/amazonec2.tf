@@ -19,13 +19,13 @@ resource "aws_instance" "apiperf" {
         name = "${lookup(var.instance_names, count.index)}"
     }
     provisioner "local-exec" {
-        command = "echo ${self.private_ip} ${lookup(var.instance_names, count.index)} > hoststmp/${lookup(var.instance_names, count.index)}"
+        command = "echo ${self.private_ip} ${lookup(var.instance_names, count.index)} > hosts/${lookup(var.instance_names, count.index)}"
     }
     provisioner "file" {
         connection {
             user = "centos"
         }
-        source = "hoststmp"
+        source = "hosts"
         destination = "/tmp"
     }
     provisioner "remote-exec" {
@@ -33,7 +33,7 @@ resource "aws_instance" "apiperf" {
             user = "centos"
         }
         inline = [
-            "sudo cat /tmp/hoststmp/* >> /etc/hosts",
+            "sudo cat /tmp/hosts/* >> /etc/hosts",
             "sudo service firewalld stop"
         ]
     }
