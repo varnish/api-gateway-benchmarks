@@ -6,11 +6,11 @@ This project aims to provide a complete set of tools needed to do performance co
 
 It was inspired by the great [Framework Benchmarks project](https://github.com/TechEmpower/FrameworkBenchmarks) by [TechEmpower](https://www.techempower.com/benchmarks/).
 
-## Test requirements
+## About
 
-### Tests
+## Tests
 
-#### test00: Reference
+### Test 00: Reference
 
 Requests sent directly from the consumer to the webserver.
 
@@ -18,7 +18,7 @@ Requests sent directly from the consumer to the webserver.
 |-------------|----------------------------------|
 | Request     | GET http://webserver:8888/test00 |
 
-#### test01: HTTP routing
+### Test 01: HTTP routing
 
 Proxy incoming requests to an upstream webserver.
 
@@ -26,7 +26,7 @@ Proxy incoming requests to an upstream webserver.
 |-------------|--------------------------------|
 | Request     | GET http://gateway:8080/test01 |
 
-#### test02: Authentication (API-key) and authorization
+### Test 02: Authentication (API-key) and authorization
 
 Authentication and authorization, and proxying to an upstream webserver.
 
@@ -35,7 +35,7 @@ Authentication and authorization, and proxying to an upstream webserver.
 | Request     | GET http://gateway:8080/test02 |
 | Header      | apikey=key02                   |
 
-#### test03: Rate limiting (high limit)
+### Test 03: Rate limiting (high limit)
 
 Rate limiting, authentication and authorization, and proxying to an upstream webserver. None of the requests should exceed the rate limitation.
 
@@ -44,7 +44,7 @@ Rate limiting, authentication and authorization, and proxying to an upstream web
 | Request     | GET http://gateway:8080/test03 |
 | Header      | apikey=key03                   |
 
-#### test04: Rate limiting (low limit)
+### Test 04: Rate limiting (low limit)
 
 Rate limiting, authentication and authorization, and proxying to an upstream webserver. Most of the requests should exceed the rate limitation.
 
@@ -53,9 +53,9 @@ Rate limiting, authentication and authorization, and proxying to an upstream web
 | Request     | GET http://gateway:8080/test04 |
 | Header      | apikey=key04                   |
 
-### General requirements
+## Setup requirements
 
-#### Web servers
+### Web servers
 
 Configuration for each web server is put in subdirectories in the ``webservers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install, configure and start the web server.
 
@@ -64,7 +64,7 @@ Configuration for each web server is put in subdirectories in the ``webservers/`
 | Listen host | 0.0.0.0 |
 | Listen port |    8888 |
 
-#### Gateways
+### Gateways
 
 Configuration for each API gateway is put in subdirectories in the ``gateways/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install, configure and start the gateway. It should also define the APIs and policies needed for the tests.
 
@@ -73,7 +73,7 @@ Configuration for each API gateway is put in subdirectories in the ``gateways/``
 | Listen host | 0.0.0.0 |
 | Listen port |    8080 |
 
-#### Consumers
+### Consumers
 
 Configuration for each consumer is put in subdirectories in the ``consumers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and prepare the consumer.
 
@@ -93,18 +93,27 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
 | Target host | gateway |
 | Target port |    8080 |
 
-## Deployment requirements
+## Execution
 
-* Three instances running CentOS 7 x86_64
+Three instances running CentOS 7 x86_64 are needed to execute the tests, each which fulfills the role of the *consumer*, *gateway* or *webserver*.
 
-## Deployment example (vagrant)
+### Deployment example (vagrant)
 
-###### Build environment
+###### 1. Install dependencies
+
+* Install [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
+* Install [Virtualbox guest additions](https://www.virtualbox.org/wiki/Downloads).
+* Install [Vagrant](https://www.vagrantup.com/).
+* Clone this git repository (``git clone https://github.com/varnish/api-gateway-benchmarks``).
+
+###### 2. Preapre virtual environment
+
+Build the three virtual instances using Vagrant.
 
     cd deployment/vagrant
     vagrant up
 
-###### Deploy components
+###### 3. Deploy components
 
     vagrant ssh gateway
     cd /vagrant/gateways/kong
@@ -121,7 +130,7 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
     sudo ./deploy
     exit
 
-###### Run tests
+###### 4. Run tests
 
     vagrant ssh consumer
     sudo /usr/local/bin/test00
@@ -130,4 +139,8 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
     sudo /usr/local/bin/test03
     sudo /usr/local/bin/test04
     exit
+
+###### 5. Interpret results
+
+Currently this is a manual process. The goal is to automate it.
 
