@@ -1,16 +1,12 @@
 # API Gateway Benchmarks
 
-Status: Work in progress.
-
-This project aims to provide a complete set of tools needed to do simple performance comparisons in the API manager/gateway space.
-
-It is inspired by the great [Framework Benchmarks project](https://github.com/TechEmpower/FrameworkBenchmarks) by [TechEmpower](https://www.techempower.com/benchmarks/).
+This project aims to provide a complete set of tools needed to do simple performance comparisons in the API manager/gateway space. It is inspired by the great [Framework Benchmarks project](https://github.com/TechEmpower/FrameworkBenchmarks) by [TechEmpower](https://www.techempower.com/benchmarks/).
 
 ## About
 
-The goal of this project is to make it easy to reproduce performance comparisons of different HTTP based API gateway/manager products. The configuration and tests are open source, and contributions are encouraged.
+This repository contains configuration that makes it easy for everyone to reproduce performance comparisons of different HTTP based API gateway/manager products. The configuration and tests are open source, and contributions are encouraged.
 
-To simplify the tests, three roles are defined: *consumer*, *gateway* and *webserver*. Each of the roles have a simple specification, which makes it easy to swap software components for the different roles.
+To simplify the tests suite, three roles are defined: *consumer*, *gateway* and *webserver*. Each of the roles have a simple specification, which makes it easy to swap software components for the different roles. It is also easy to add clonfiguration for new software components.
 
 To run a performance test, each role must be filled by exactly one software component.
 
