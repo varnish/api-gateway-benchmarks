@@ -2,17 +2,27 @@
 
 Status: Work in progress.
 
-This project aims to provide a complete set of tools needed to do performance comparisons in the API manager/gateway space.
+This project aims to provide a complete set of tools needed to do simple performance comparisons in the API manager/gateway space.
 
-It was inspired by the great [Framework Benchmarks project](https://github.com/TechEmpower/FrameworkBenchmarks) by [TechEmpower](https://www.techempower.com/benchmarks/).
+It is inspired by the great [Framework Benchmarks project](https://github.com/TechEmpower/FrameworkBenchmarks) by [TechEmpower](https://www.techempower.com/benchmarks/).
 
 ## About
 
+The goal of this project is to make it easy to reproduce performance comparisons of different HTTP based API gateway/manager products. The configuration and tests are open source, and contributions are encouraged.
+
+To simplify the tests, three roles are defined: *consumer*, *gateway* and *webserver*. Each of the roles have a simple specification, which makes it easy to swap software components for the different roles.
+
+To run a performance test, each role must be filled by exactly one software component.
+
+For performance comparisons, multiple performance tests are executed where one role switches software component (typically the gateway) between each run.
+
 ## Tests
+
+The tests cover a limited set of features which are considered as basic functionality in most API gateways. Each test focuses on a set of very specific features for easy comparison.
 
 **Test 00: Reference**
 
-Requests sent directly from the consumer to the webserver.
+Requests sent directly from the consumer to the webserver. The gateway is not part of the request handling, and does therefore not affect the results.
 
 | Property    |                            Value |
 |-------------|----------------------------------|
@@ -20,40 +30,40 @@ Requests sent directly from the consumer to the webserver.
 
 **Test 01: HTTP routing**
 
-Proxy incoming requests to an upstream webserver.
+Proxy consumer requests through the gateway to the upstream webserver.
 
 | Property    |                          Value |
 |-------------|--------------------------------|
 | Request     | GET http://gateway:8080/test01 |
 
-**Test 02: Authentication (API-key) and authorization**
+**Test 02: Key based authentication and authorization**
 
-Authentication and authorization, and proxying to an upstream webserver.
+Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver.
 
 | Property    |                          Value |
 |-------------|--------------------------------|
 | Request     | GET http://gateway:8080/test02 |
 | Header      | apikey=key02                   |
 
-**Test 03: Rate limiting (high limit)**
+**Test 03: Key based auth and rate limiting (high limit)**
 
-Rate limiting, authentication and authorization, and proxying to an upstream webserver. None of the requests should exceed the rate limitation.
+Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver. All requests should be counted, but none should exceed the rate limitation.
 
 | Property    |                          Value |
 |-------------|--------------------------------|
 | Request     | GET http://gateway:8080/test03 |
 | Header      | apikey=key03                   |
 
-**Test 04: Rate limiting (low limit)**
+**Test 04: Key based auth and rate limit of 1 rps**
 
-Rate limiting, authentication and authorization, and proxying to an upstream webserver. Most of the requests should exceed the rate limitation.
+Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver. Only one request is allowed per second. The rest of the requests should be rejected.
 
 | Property    |                          Value |
 |-------------|--------------------------------|
 | Request     | GET http://gateway:8080/test04 |
 | Header      | apikey=key04                   |
 
-## Components
+## Roles specification
 
 There are three roles involved; consumers, gateways and webservers.
 
@@ -61,7 +71,7 @@ There are three roles involved; consumers, gateways and webservers.
 
 Configuration for each type of consumer is put in subdirectories in the ``consumers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and prepare the consumer for load generation.
 
-Wrappers to run the different tests should be put in ``/usr/local/bin/`` and named ``test00``, ``test01``, ..., ``textXX``.
+Wrappers to run the different tests should be put in ``/usr/local/bin/`` inside the consumer instance and named ``test00``, ``test01``, ..., ``textXX``.
 
 **Reference test** (``test00``):
 
