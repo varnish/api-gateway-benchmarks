@@ -6,9 +6,7 @@ This project aims to provide a complete set of tools needed to do simple perform
 
 This repository contains configuration that makes it easy for everyone to reproduce performance comparisons of different HTTP based API gateway/manager products. The configuration and tests are open source, and contributions are encouraged.
 
-To simplify the tests suite, three roles are defined: *consumer*, *gateway* and *webserver*. Each of the roles have a simple specification, which makes it easy to swap software components for the different roles. It is also easy to add clonfiguration for new software components.
-
-To run a performance test, each role must be filled by exactly one software component.
+To simplify the tests suite, three roles are defined: *consumer*, *gateway* and *webserver*. To run a performance test, each role must be filled by exactly one software component.
 
 For performance comparisons, multiple performance tests are executed where one role switches software component (typically the gateway) between each run.
 
@@ -20,70 +18,77 @@ The tests cover a limited set of features which are considered as basic function
 
 Requests sent directly from the consumer to the webserver. The gateway is not part of the request handling, and does therefore not affect the results.
 
-| Property    |                            Value |
-|-------------|----------------------------------|
-| Request     | GET http://webserver:8888/test00 |
+The requests should be sent according to the following specifications.
+
+| Property       |        Value |
+|----------------|--------------|
+| Request method |          GET |
+| Protocol       |         http |
+| Host           |    webserver |
+| Port           |         8888 |
+| Request path   |      /test00 |
+| Headers        |       *none* |
 
 **Test 01: HTTP routing**
 
 Proxy consumer requests through the gateway to the upstream webserver.
 
-| Property    |                          Value |
-|-------------|--------------------------------|
-| Request     | GET http://gateway:8080/test01 |
+| Property       |        Value |
+|----------------|--------------|
+| Request method |          GET |
+| Protocol       |         http |
+| Host           |      gateway |
+| Port           |         8080 |
+| Request path   |      /test01 |
+| Headers        |       *none* |
 
 **Test 02: Key based authentication and authorization**
 
 Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver.
 
-| Property    |                          Value |
-|-------------|--------------------------------|
-| Request     | GET http://gateway:8080/test02 |
-| Header      | apikey=key02                   |
+| Property       |        Value |
+|----------------|--------------|
+| Request method |          GET |
+| Protocol       |         http |
+| Host           |      gateway |
+| Port           |         8080 |
+| Request path   |      /test02 |
+| Headers        | apikey=key02 |
+
 
 **Test 03: Key based auth and rate limiting (high limit)**
 
 Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver. All requests should be counted, but none should exceed the rate limitation.
 
-| Property    |                          Value |
-|-------------|--------------------------------|
-| Request     | GET http://gateway:8080/test03 |
-| Header      | apikey=key03                   |
+| Property       |        Value |
+|----------------|--------------|
+| Request method |          GET |
+| Protocol       |         http |
+| Host           |      gateway |
+| Port           |         8080 |
+| Request path   |      /test03 |
+| Headers        | apikey=key03 |
 
 **Test 04: Key based auth and rate limit of 1 rps**
 
 Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver. Only one request is allowed per second. The rest of the requests should be rejected.
 
-| Property    |                          Value |
-|-------------|--------------------------------|
-| Request     | GET http://gateway:8080/test04 |
-| Header      | apikey=key04                   |
+| Property       |        Value |
+|----------------|--------------|
+| Request method |          GET |
+| Protocol       |         http |
+| Host           |      gateway |
+| Port           |         8080 |
+| Request path   |      /test04 |
+| Headers        | apikey=key04 |
 
 ## Roles specification
-
-There are three roles involved; consumers, gateways and webservers.
 
 ### Consumers
 
 Configuration for each type of consumer is put in subdirectories in the ``consumers/`` directory. Each subdirectory should contain a ``deploy`` file that can be executed to install and prepare the consumer for load generation.
 
-Wrappers to run the different tests should be put in ``/usr/local/bin/`` inside the consumer instance and named ``test00``, ``test01``, ..., ``textXX``.
-
-**Reference test** (``test00``):
-
-| Property    |     Value |
-|-------------|-----------|
-| Protocol    |      http |
-| Target host | webserver |
-| Target port |      8888 |
-
-**Other tests** (``test01, ...``):
-
-| Property    |   Value |
-|-------------|---------|
-| Protocol    |    http |
-| Target host | gateway |
-| Target port |    8080 |
+Wrappers to run the different tests should be put in ``/usr/local/bin/`` inside the consumer instance and named ``test00``, ``test01``, ..., ``textXX``. The wrappers should execute requests according to the test specifications.
 
 ### Gateways
 
@@ -107,7 +112,10 @@ Configuration for each web server is put in subdirectories in the ``webservers/`
 
 ## Execution
 
-Three instances running CentOS 7 x86_64 are needed to execute the tests, each which fulfills the role of the *consumer*, *gateway* or *webserver*.
+* Three instances running CentOS 7 x86_64 are needed to execute the tests, each which fulfills the role of the *consumer*, *gateway* or *webserver*.
+* Selinux should be disabled.
+* The EPEL7 repository should be enabled.
+* Root access is required.
 
 ### Deployment examples
 
@@ -148,11 +156,11 @@ Build the three virtual instances using Vagrant.
 **4. Run tests**
 
     vagrant ssh consumer
-    sudo /usr/local/bin/test00
-    sudo /usr/local/bin/test01
-    sudo /usr/local/bin/test02
-    sudo /usr/local/bin/test03
-    sudo /usr/local/bin/test04
+    /usr/local/bin/test00
+    /usr/local/bin/test01
+    /usr/local/bin/test02
+    /usr/local/bin/test03
+    /usr/local/bin/test04
     exit
 
 **5. Interpret results**
