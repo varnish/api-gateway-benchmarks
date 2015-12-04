@@ -29,9 +29,13 @@ The requests should be sent according to the following specifications.
 | Request path   |      /test00 |
 | Headers        |       *none* |
 
+The webserver should accept the requests and reply with ``200 OK``.
+
 **Test 01: HTTP routing**
 
 Proxy consumer requests through the gateway to the upstream webserver.
+
+The requests should be sent from the consumer according to the following specifications.
 
 | Property       |        Value |
 |----------------|--------------|
@@ -42,9 +46,13 @@ Proxy consumer requests through the gateway to the upstream webserver.
 | Request path   |      /test01 |
 | Headers        |       *none* |
 
+The gateway should accept the requests and proxy them to ``http://webserver:8888/test01``. The webserver should accept the requests and reply with ``200 OK``.
+
 **Test 02: Key based authentication and authorization**
 
 Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver.
+
+The requests should be sent from the consumer according to the following specifications.
 
 | Property       |        Value |
 |----------------|--------------|
@@ -55,10 +63,13 @@ Authenticate, authorize and proxy consumer requests through the gateway to the u
 | Request path   |      /test02 |
 | Headers        | apikey=key02 |
 
+The gateway should verify the specified key, accept the requests and proxy them to ``http://webserver:8888/test01``. The webserver should accept the requests and reply with ``200 OK``.
 
 **Test 03: Key based auth and rate limiting (high limit)**
 
 Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver. All requests should be counted, but none should exceed the rate limitation.
+
+The requests should be sent from the consumer according to the following specifications.
 
 | Property       |        Value |
 |----------------|--------------|
@@ -69,9 +80,13 @@ Authenticate, authorize and proxy consumer requests through the gateway to the u
 | Request path   |      /test03 |
 | Headers        | apikey=key03 |
 
+The gateway should verify the specified key, accept the requests, count them and proxy them to ``http://webserver:8888/test01``. The webserver should accept the requests and reply with ``200 OK``.
+
 **Test 04: Key based auth and rate limit of 1 rps**
 
 Authenticate, authorize and proxy consumer requests through the gateway to the upstream webserver. Only one request is allowed per second. The rest of the requests should be rejected.
+
+The requests should be sent from the consumer according to the following specifications.
 
 | Property       |        Value |
 |----------------|--------------|
@@ -81,6 +96,8 @@ Authenticate, authorize and proxy consumer requests through the gateway to the u
 | Port           |         8080 |
 | Request path   |      /test04 |
 | Headers        | apikey=key04 |
+
+The gateway should verify the specified key, and allow only one request per second. This one request per second should be proxied to ``http://webserver:8888/test01``. The webserver should accept the requests and reply with ``200 OK``. The requests exceeding the rate limit should be rejected.
 
 ## Roles specification
 
