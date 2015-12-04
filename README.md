@@ -97,7 +97,9 @@ Wrappers to run the different tests should be put in ``/usr/local/bin/`` and nam
 
 Three instances running CentOS 7 x86_64 are needed to execute the tests, each which fulfills the role of the *consumer*, *gateway* or *webserver*.
 
-### Deployment example (vagrant)
+### Deployment examples
+
+#### Vagrant and VirtualBox
 
 **1. Install dependencies**
 
