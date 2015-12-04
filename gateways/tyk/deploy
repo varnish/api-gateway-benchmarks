@@ -8,3 +8,5 @@ if [ $? -ne 0 ]; then
 fi
 
 ansible-playbook -c local -i ../../configuration/localhost setup.yml
+
+./configure

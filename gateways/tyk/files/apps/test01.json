@@ -1,7 +1,8 @@
 {
     "name": "test01",
     "api_id": "1",
-    "org_id": "default",
+    "org_id": "test01",
+    "active": true,
     "definition": {
         "location": "",
         "key": ""

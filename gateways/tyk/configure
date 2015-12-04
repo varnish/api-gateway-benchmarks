@@ -1,8 +1,7 @@
 #!/bin/bash -x
 
 # test02
-curl -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
-    -s \
+curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
     -H "Content-Type: application/json" \
     -X POST \
     -d '{
@@ -14,63 +13,70 @@ curl -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
             "quota_renews": 1449051461,
             "quota_remaining": -1,
             "quota_renewal_rate": 60,
+            "org_id": "test02",
+            "active": true,
+            "is_inactive": false,
             "access_rights": {
                 "2": {
                     "api_id": "2",
-                    "api_name": "Test API",
+                    "api_name": "test02",
                     "versions": ["Default"]
                 }
             },
-            "meta_data": {}
+            "meta_data": { }
         }' \
-     http://localhost:8080/tyk/keys/create
+     "http://localhost:8080/tyk/keys/key02"
 
 # test03
-curl -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
-    -s \
+curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
     -H "Content-Type: application/json" \
     -X POST \
     -d '{
-            "allowance": 1000,
-            "rate": 1000,
-            "per": 1,
+            "allowance": 60000000,
+            "rate": 60000000,
+            "per": 60,
             "expires": -1,
             "quota_max": -1,
             "quota_renews": 1449051461,
             "quota_remaining": -1,
             "quota_renewal_rate": 60,
+            "org_id": "test03",
+            "active": true,
+            "is_inactive": false,
             "access_rights": {
                 "3": {
                     "api_id": "3",
-                    "api_name": "Test API",
+                    "api_name": "test03",
                     "versions": ["Default"]
                 }
             },
-            "meta_data": {}
+            "meta_data": { }
         }' \
-     http://localhost:8080/tyk/keys/create
+     "http://localhost:8080/tyk/keys/key03"
 
 # test04
-curl -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
-    -s \
+curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
     -H "Content-Type: application/json" \
     -X POST \
     -d '{
-            "allowance": 1000,
-            "rate": 1000,
+            "allowance": 1,
+            "rate": 1,
             "per": 1,
             "expires": -1,
             "quota_max": -1,
             "quota_renews": 1449051461,
             "quota_remaining": -1,
             "quota_renewal_rate": 60,
+            "org_id": "test04",
+            "active": true,
+            "is_inactive": false,
             "access_rights": {
                 "4": {
                     "api_id": "4",
-                    "api_name": "Test API",
+                    "api_name": "test04",
                     "versions": ["Default"]
                 }
             },
-            "meta_data": {}
+            "meta_data": { }
         }' \
-     http://localhost:8080/tyk/keys/create
+     "http://localhost:8080/tyk/keys/key04"
