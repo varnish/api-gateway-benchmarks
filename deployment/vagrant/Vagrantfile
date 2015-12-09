@@ -10,7 +10,7 @@ def linux config, ip, box, hostname, box_url
     c.vm.network :private_network, ip: ip
 
     # Sync our top folder
-    c.vm.synced_folder "../../", "/vagrant", owner: "root", group: "root"
+    c.vm.synced_folder "../../", "/opt/benchmarks", owner: "root", group: "root"
 
     # Force the VM names instead of using generated ones. May cause problems
     # if running the same VM in different vagrant projects.
