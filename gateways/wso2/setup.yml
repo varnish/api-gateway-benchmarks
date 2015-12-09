@@ -1,0 +1,40 @@
+- name: "Setup WSO2 API Manager"
+  hosts: all
+  tasks:
+
+# From https://docs.wso2.com/display/AM191/Installation+Prerequisites:
+# "All WSO2 Carbon-based products are Java applications that can be run on any
+# platform that is Oracle JDK 1.6.*/1.7.* compliant. JDK 1.8 is not supported 
+# yet. Also, we do not recommend or support OpenJDK."
+    - name: "Ensure dependencies are installed"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "java-1.7.0-openjdk"
+
+    - name: "Ensure WSO2 Api Manager is downloaded"
+      get_url: url="http://product-dist.wso2.com/products/api-manager/1.9.1/wso2am-1.9.1.zip"
+               dest="/usr/local/wso2am.zip"
+               timeout=1800
+
+    - name: "Extract package"
+      command: "unzip wso2am.zip"
+      args:
+        chdir: "/usr/local"
+        creates: "/usr/local/wso2am-1.9.1"
+
+    - name: "Ensure the wso2 user is present"
+      user: name="wso2" comment="wso2 system user"
+            system="yes" state="present"
+
+    - name: "Ensure wso2am service script is present"
+      copy: src="files/wso2am.service"
+            dest="/etc/systemd/system/wso2am.service"
+            mode=444 owner=root group=root
+      notify:
+        - "Restart wso2am"
+
+    - name: "Ensure wso2am is running"
+      service: name="wso2am" state="running" enabled="yes"
+  handlers:
+    - name: "Restart wso2am"
+      service: name="wso2am" state="restarted"
