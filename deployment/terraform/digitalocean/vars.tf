@@ -1,28 +1,40 @@
 variable "do_apikey" {
     description = "Valid Digital Ocean API Key"
 }
+
 variable "sshkey" {
     description = "SSH key to use for provisioning"
 }
-variable "count" {
-    description = "Number of droplets to create"
-    default = "3"
+
+variable "droplet_region" {
+    description = "The region to use for droplets"
+    default = "ams3"
+}
+
+variable "droplet_image" {
+    description = "The droplet image to use"
+    default = "centos-7-0-x64"
+}
+
+variable "droplet_use_privatenet" {
+    description = "Disable or enable private networking"
+    default = "False"
 }
 
 variable "droplet_names" {
     description = "Base names to use for droplets"
     default = {
-        "0" = "gateway"
-        "1" = "webserver"
-        "2" = "consumer"
+        "gateway"   = "gateway"
+        "webserver" = "webserver"
+        "consumer"  = "consumer"
     }
 }
 
 variable "droplet_sizes" {
     description = "Droplet sizes"
     default = {
-        "0" = "1gb"
-        "1" = "512mb"
-        "2" = "512mb"
+        "gateway"   = "1gb"
+        "webserver" = "512mb"
+        "consumer"  = "512mb"
     }
 }
