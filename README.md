@@ -129,12 +129,16 @@ Configuration for each web server is put in subdirectories in the ``webservers/`
 
 ## Execution
 
-* Three instances running CentOS 7 x86_64 are needed to execute the tests, each which fulfills the role of the *consumer*, *gateway* or *webserver*.
+### Environment specifications
+
+* Three instances running CentOS 7 x86_64. Each of them service the purpose of ``consumer``, ``gateway`` or ``webserver``.
+* Each host should be configured with ``/etc/hosts`` properly set with entries for ``consumer``, ``gateway`` and ``webserver`` for consistent host mapping in different environments.
 * Selinux should be disabled.
 * The EPEL7 repository should be enabled.
 * Root access is required.
+* This git repository cloned to */opt/benchmarks*.
 
-### Deployment examples
+### Deployment example
 
 #### Vagrant and VirtualBox
 
