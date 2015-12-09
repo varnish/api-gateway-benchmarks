@@ -160,17 +160,17 @@ Build the three virtual instances using Vagrant.
 
     vagrant ssh gateway
     # Using Kong in this example. Tyk is also available in the tyk directory.
-    cd /vagrant/gateways/kong
+    cd /opt/benchmarks/gateways/kong
     sudo ./deploy
     exit
 
     vagrant ssh webserver
-    cd /vagrant/webservers/dummy-api
+    cd /opt/benchmarks/webservers/dummy-api
     sudo ./deploy
     exit
 
     vagrant ssh consumer
-    cd /vagrant/consumers/boom
+    cd /opt/benchmarks/consumers/boom
     sudo ./deploy
     exit
 
