@@ -9,6 +9,16 @@ On OSX, Terraform can also be installed via Homebrew.
 
 Terraform manipulates cloud based instances, and it is imperative that you ensure that the configuration used does not alter any of your existing resources. Typically the naming chosen for the instances should avoid this, but please ensure via ``terraform plan`` before applying or destroying.
 
+## Ansible integration
+
+A nice dynamic inventory script for Ansible is at https://github.com/adammck/terraform-inventory
+Binary releases are available at https://github.com/adammck/terraform-inventory/releases
+Install this tool in your PATH and then use it like this :
+
+::
+    
+    $ ansible-playbook --inventory-file=terraform-inventory playbook.yml
+
 ## Amazon EC2
 
 ### Quickstart EC2
