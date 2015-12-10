@@ -25,7 +25,7 @@ curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
             },
             "meta_data": { }
         }' \
-     "http://localhost:8080/tyk/keys/key02"
+     "http://localhost:8000/tyk/keys/key02"
 
 # test03
 curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
@@ -52,7 +52,7 @@ curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
             },
             "meta_data": { }
         }' \
-     "http://localhost:8080/tyk/keys/key03"
+     "http://localhost:8000/tyk/keys/key03"
 
 # test04
 curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
@@ -79,4 +79,4 @@ curl -i -H "x-tyk-authorization: 3f03d372b1ff5d735dfcc2d0a82ad2b3" \
             },
             "meta_data": { }
         }' \
-     "http://localhost:8080/tyk/keys/key04"
+     "http://localhost:8000/tyk/keys/key04"
