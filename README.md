@@ -42,7 +42,7 @@ The requests should be sent from the consumer according to the following specifi
 | Request method |          GET |
 | Protocol       |         http |
 | Host           |      gateway |
-| Port           |         8080 |
+| Port           |         8000 |
 | Request path   |      /test01 |
 | Headers        |       *none* |
 
@@ -59,7 +59,7 @@ The requests should be sent from the consumer according to the following specifi
 | Request method |          GET |
 | Protocol       |         http |
 | Host           |      gateway |
-| Port           |         8080 |
+| Port           |         8000 |
 | Request path   |      /test02 |
 | Headers        | apikey=key02 |
 
@@ -76,7 +76,7 @@ The requests should be sent from the consumer according to the following specifi
 | Request method |          GET |
 | Protocol       |         http |
 | Host           |      gateway |
-| Port           |         8080 |
+| Port           |         8000 |
 | Request path   |      /test03 |
 | Headers        | apikey=key03 |
 
@@ -93,7 +93,7 @@ The requests should be sent from the consumer according to the following specifi
 | Request method |          GET |
 | Protocol       |         http |
 | Host           |      gateway |
-| Port           |         8080 |
+| Port           |         8000 |
 | Request path   |      /test04 |
 | Headers        | apikey=key04 |
 
@@ -115,7 +115,7 @@ Configuration for each API gateway is put in subdirectories in the ``gateways/``
 |-------------|---------|
 | Protocol    |    http |
 | Listen host | 0.0.0.0 |
-| Listen port |    8080 |
+| Listen port |    8000 |
 
 ### Webservers
 
