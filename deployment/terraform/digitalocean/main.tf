@@ -16,7 +16,7 @@ resource "digitalocean_droplet" "apiperf-webserver" {
     region = "${var.droplet_region}"
     ssh_keys = [ "${digitalocean_ssh_key.apiperf-sshkey.id}" ]
     provisioner "local-exec" {
-        command = "echo ${self.ipv4_address} ${lookup(var.droplet_names, "webserver")} > hosts/${lookup(var.droplet_names, "webserver")}"
+        command = "echo ${self.ipv4_address} ${lookup(var.droplet_names, "webserver")} > hosts/${lookup(var.droplet_names, "webserver")}.host"
     }
     provisioner "remote-exec" {
         inline = [
@@ -33,7 +33,7 @@ resource "digitalocean_droplet" "apiperf-gateway" {
     region = "${var.droplet_region}"
     ssh_keys = [ "${digitalocean_ssh_key.apiperf-sshkey.id}" ]
     provisioner "local-exec" {
-        command = "echo ${self.ipv4_address} ${lookup(var.droplet_names, "gateway")} > hosts/${lookup(var.droplet_names, "gateway")}"
+        command = "echo ${self.ipv4_address} ${lookup(var.droplet_names, "gateway")} > hosts/${lookup(var.droplet_names, "gateway")}.host"
     }
     provisioner "remote-exec" {
         inline = [
@@ -50,7 +50,7 @@ resource "digitalocean_droplet" "apiperf-consumer" {
     region = "${var.droplet_region}"
     ssh_keys = [ "${digitalocean_ssh_key.apiperf-sshkey.id}" ]
     provisioner "local-exec" {
-        command = "echo ${self.ipv4_address} ${lookup(var.droplet_names, "consumer")} > hosts/${lookup(var.droplet_names, "consumer")}"
+        command = "echo ${self.ipv4_address} ${lookup(var.droplet_names, "consumer")} > hosts/${lookup(var.droplet_names, "consumer")}.host"
     }
     provisioner "remote-exec" {
         inline = [
@@ -77,7 +77,7 @@ resource "null_resource" "hostsfile" {
             host = "${digitalocean_droplet.apiperf-consumer.ipv4_address}"
         }
         inline = [
-            "cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
+            "cat /tmp/hosts/hostsheader /tmp/hosts/*.host > /etc/hosts",
         ]
     }
     provisioner "file" {
@@ -92,7 +92,7 @@ resource "null_resource" "hostsfile" {
             host = "${digitalocean_droplet.apiperf-gateway.ipv4_address}"
         }
         inline = [
-            "cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
+            "cat /tmp/hosts/hostsheader /tmp/hosts/*.host > /etc/hosts",
         ]
     }
     provisioner "file" {
@@ -107,7 +107,7 @@ resource "null_resource" "hostsfile" {
             host = "${digitalocean_droplet.apiperf-webserver.ipv4_address}"
         }
         inline = [
-            "cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
+            "cat /tmp/hosts/hostsheader /tmp/hosts/*.host > /etc/hosts",
         ]
     }
 }
