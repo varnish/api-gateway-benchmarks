@@ -77,7 +77,7 @@ resource "null_resource" "hostsfile" {
             host = "${digitalocean_droplet.apiperf-consumer.ipv4_address}"
         }
         inline = [
-            "cat /tmp/hosts/*.host >> /etc/hosts",
+            "cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
         ]
     }
     provisioner "file" {
@@ -92,7 +92,7 @@ resource "null_resource" "hostsfile" {
             host = "${digitalocean_droplet.apiperf-gateway.ipv4_address}"
         }
         inline = [
-            "cat /tmp/hosts/*.host >> /etc/hosts",
+            "cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
         ]
     }
     provisioner "file" {
@@ -107,7 +107,7 @@ resource "null_resource" "hostsfile" {
             host = "${digitalocean_droplet.apiperf-webserver.ipv4_address}"
         }
         inline = [
-            "cat /tmp/hosts/*.host >> /etc/hosts",
+            "cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
         ]
     }
 }

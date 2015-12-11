@@ -70,7 +70,7 @@ resource "null_resource" "hostsfile" {
             host = "${aws_instance.apiperf-consumer.public_ip}"
         }
         inline = [
-            "sudo sh -c 'cat /tmp/hosts/*.host >> /etc/hosts'",
+            "sudo sh -c 'cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
         ]
     }
     connection {
@@ -89,7 +89,7 @@ resource "null_resource" "hostsfile" {
             host = "${aws_instance.apiperf-gateway.public_ip}"
         }
         inline = [
-            "sudo sh -c 'cat /tmp/hosts/*.host >> /etc/hosts'",
+            "sudo sh -c 'cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
         ]
     }
     provisioner "file" {
@@ -104,7 +104,7 @@ resource "null_resource" "hostsfile" {
             host = "${aws_instance.apiperf-webserver.public_ip}"
         }
         inline = [
-            "sudo sh -c 'cat /tmp/hosts/*.host >> /etc/hosts'",
+            "sudo sh -c 'cat /tmp/hostsheader /tmp/hosts/*.host > /etc/hosts'",
         ]
     }
 }
