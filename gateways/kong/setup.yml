@@ -28,8 +28,11 @@
       copy: src="files/cassandra.yaml"
             dest="/etc/cassandra/default.conf/cassandra.yaml"
             mode=444 owner=root group=root
-      notify:
-        - "Restart Cassandra"
+#      notify:
+#        - "Restart Cassandra"
+    
+    - name: "Restart Cassandra"
+      service: name="cassandra" state="restarted"
 
     - name: "Ensure Cassandra is running"
       service: name="cassandra" state="running" enabled="yes"
@@ -80,11 +83,11 @@
     - name: "Update the yum cache"
       command: "yum clean metadata"
 
-    - name: "Restart Cassandra"
-      service: name="cassandra" state="restarted"
-
     - name: "Update local repository"
       command: "/usr/bin/createrepo /var/lib/packages"
+    
+#    - name: "Restart Cassandra"
+#      service: name="cassandra" state="restarted"
 
     - name: "Restart Kong"
       service: name="kong" state="restarted"
