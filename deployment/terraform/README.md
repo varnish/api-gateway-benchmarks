@@ -13,25 +13,27 @@ Terraform manipulates cloud based instances, and it is imperative that you ensur
 
 A nice dynamic inventory script for Ansible is at https://github.com/adammck/terraform-inventory
 Binary releases are available at https://github.com/adammck/terraform-inventory/releases
-Install this tool in your PATH and then use it like this :
-
-::
-    
-    $ ansible-playbook --inventory-file=terraform-inventory playbook.yml
+Copy the ``terraform-inventory`` binary that works for your platform to the ``bin/`` subdirectory.
 
 ## Amazon EC2
 
 ### Quickstart EC2
 
 1. Edit the terraform.tfvars file and insert AWS credentials and sshkey
+2. Run ``./deploy aws-ec2`` to run start instances, provision and run tests
+3. Run ``terraform destroy aws-ec2`` to remove all AWS resources created by ``deploy``
+
+### Manual EC2 run
+
+1. Edit the terraform.tfvars file and insert AWS credentials and sshkey
 2. Run ``terraform plan aws-ec2`` to verify the plan
 3. Run ``terraform apply aws-ec2`` to spin up instances
-4. XXX: insert provisioning instructions here
+4. Run ``ansible-playbook --inventory-file=bin/terraform-inventory playbook.yml``
 5. Run ``terraform destroy aws-ec2`` to remove all resources
 
 ### Nodes
 
-The default is to start 3 instances:
+The setup consists of three nodes:
 
 * webserver
 * gateway
@@ -39,15 +41,36 @@ The default is to start 3 instances:
 
 ### Custom setups
 
-The instance types and ami to use is configured in ``aws-ec2/vars.tf``, default is **m3.medium** and the official Centos7 AMI.
+The ec2 regiom, instance types and ami to use is configured in ``aws-ec2/vars.tf``, default is **m3.medium** and the official Centos7 AMI.
+
+::
+
+    aws_ec2_region = "us-east-1"
+    aws_ec2_ami = "ami-61bbf104" (Centos7 64bit)
+    instance_types = "m3.medium" (Can be configured per node)
 
 ## DigitalOcean
 
 ### Quickstart DigitalOcean
 
+1. Edit the terraform.tfvars file and insert a valid Digitalocean API key and sshkey
+2. Run ``./deploy digitalocean`` to run start instances, provision and run tests
+3. Run ``terraform destroy digitalocean`` to remove all Digitalocean resources created by ``deploy``
+
+### Manual Digitalocean run
+
 1. Edit the terraform.tfvars file and insert a valid API key and sshkey
 2. Run ``terraform plan digitalocean`` to verify the plan
 3. Run ``terraform apply digitalocean`` to spin up instances
-4. XXX: insert provisioning instructions here
+4. Run ``ansible-playbook --inventory-file=bin/terraform-inventory playbook.yml``
 5. Run ``terraform destroy digitalocean`` to remove all resources
 
+### Custom setups
+
+The droplet location, size and image to use is configured in ``digitalocean/vars.tf``, defaults are:
+
+::
+
+    droplet_region = "ams3" (Amsterdam)
+    droplet_image = "centos-7-0-x64"
+    droplet_size = "1gb" (Can be configured per node)

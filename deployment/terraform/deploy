@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+    echo "Usage:"
+    echo "  deploy cloud-provider-name [custom-terraform-var-file]"
+    echo "Examples:"
+    echo "  deploy aws-ec2"
+    echo "  deploy digitalocean"
+    echo "  deploy aws-ec2 terraform.tfvars.mine"
+fi
+
+if [ -d "$1" ]; then
+    terraform apply -var-file="$2" "$1"
+    ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i bin/terraform-inventory playbook.yml
+fi

@@ -1,0 +1,80 @@
+- name: "Common setup for all hosts"
+  hosts: all
+  tasks:
+    - name: "Install the EPEL repo"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "epel-release"
+    - name: "Install common tools"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "git"
+        - "ansible"
+        - "wget"
+    - name: "Fetch the api-gateway-benchmarks repo"
+      git: repo=https://github.com/varnish/api-gateway-benchmarks.git
+           dest=/opt/api-gateway-benchmarks
+
+- name: "Custom setup for webserver"
+  hosts: apiperf-webserver
+  tasks:
+    - name: "Webserver Playbook: dummy-api"
+      shell: ./deploy
+      args:
+        chdir: /opt/api-gateway-benchmarks/webservers/dummy-api
+      register: ansible_dummyapi
+    - debug: var=ansible_dummyapi.stdout_lines
+
+- name: "Custom setup for gateway"
+  hosts: apiperf-gateway
+  tasks:
+    - name: "Gateway Playbook: kong"
+      shell: ./deploy
+      args:
+        chdir: /opt/api-gateway-benchmarks/gateways/kong
+      register: ansible_kong
+    - debug: var=ansible_kong.stdout_lines
+#  tasks:
+#    - name: "Gateway Playbook: tyk"
+#      shell: ./deploy
+#      args:
+#        chdir: /opt/api-gateway-benchmarks/gateways/tyk
+#      register: ansible_tyk
+#    - debug: var=ansible_tyk.stdout_lines
+#  tasks:
+#    - name: "Gateway Playbook: wso2"
+#      shell: ./deploy
+#      args:
+#        chdir: /opt/api-gateway-benchmarks/gateways/wso2
+#      register: ansible_wso2
+#    - debug: var=ansible_wso2.stdout_lines
+
+- name: "consumer"
+  hosts: apiperf-consumer
+  tasks:
+    - name: "Consumer Playbook: boom"
+      shell: ./deploy
+      args:
+        chdir: /opt/api-gateway-benchmarks/consumers/boom
+      register: ansible_boom
+    - debug: var=ansible_boom.stdout_lines
+    - name: "Run test: 00"
+      command: /usr/local/bin/test00
+      register: testresult
+    - debug: var=testresult.stdout_lines
+    - name: "Run test: 01"
+      command: /usr/local/bin/test01
+      register: testresult
+    - debug: var=testresult.stdout_lines
+    - name: "Run test: 02"
+      command: /usr/local/bin/test02
+      register: testresult
+    - debug: var=testresult.stdout_lines
+    - name: "Run test: 03"
+      command: /usr/local/bin/test03
+      register: testresult
+    - debug: var=testresult.stdout_lines
+    - name: "Run test: 04"
+      command: /usr/local/bin/test04
+      register: testresult
+    - debug: var=testresult.stdout_lines

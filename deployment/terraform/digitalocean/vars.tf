@@ -34,7 +34,7 @@ variable "droplet_sizes" {
     description = "Droplet sizes"
     default = {
         "gateway"   = "1gb"
-        "webserver" = "512mb"
-        "consumer"  = "512mb"
+        "webserver" = "1gb"
+        "consumer"  = "1gb"
     }
 }
