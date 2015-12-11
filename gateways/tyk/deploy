@@ -7,6 +7,6 @@ if [ $? -ne 0 ]; then
         yum install -y ansible
 fi
 
-ansible-playbook -c local -i ../../configuration/localhost setup.yml
+ansible-playbook -c local -i "localhost," setup.yml
 
 ./configure
