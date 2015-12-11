@@ -1,8 +1,9 @@
 #!/bin/bash
 
 check=1
-timeout=30
+timelimit=180
 
+timeout=$timelimit
 while [ $check -gt 0 ]
 do
     check=`nc 127.0.0.1 9042 < /dev/null 2> /dev/null; echo $?`
@@ -15,5 +16,6 @@ do
     sleep 1s
 done
 
-echo "Cassandra started."
+timediff=$(( $timelimit - $timeout ))
+echo "Cassandra started after $timediff seconds"
 exit 0
