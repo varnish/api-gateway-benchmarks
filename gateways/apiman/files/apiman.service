@@ -1,0 +1,16 @@
+[Unit]
+Description=apiman
+After=network.target
+
+[Service]
+WorkingDirectory=/usr/local/wildfly-9.0.2.Final
+ExecStart=/usr/local/wildfly-9.0.2.Final/bin/standalone.sh -c /usr/local/wildfly-9.0.2.Final/standalone-apiman.xml
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=apiman
+PrivateTmp=true
+User=apiman
+Group=apiman
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,60 @@
+- name: "Setup Apiman"
+  hosts: all
+  tasks:
+
+# From http://www.apiman.io/latest/download.html
+# "You'll obviously also need to have Java installed - we currently recommend at least version 7."
+    - name: "Ensure dependencies are installed"
+      yum: name="{{ item }}" state="installed"
+      with_items:
+        - "java-1.7.0-openjdk"
+
+    - name: "Ensure wildfly is downloaded"
+      get_url: url="http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.zip"
+               dest="/usr/local/wildfly.zip"
+               timeout=1800
+
+    - name: "Ensure apiman is downloaded"
+      get_url: url="http://downloads.jboss.org/apiman/1.2.1.Final/apiman-distro-wildfly9-1.2.1.Final-overlay.zip"
+               dest="/usr/local/apiman.zip"
+               timeout=1800
+
+    - name: "Extract wildfly"
+      command: "unzip wildfly.zip"
+      args:
+        chdir: "/usr/local"
+        creates: "/usr/local/wildfly-9.0.2.Final"
+
+    # apiman is extracted inside the wildfly directory
+    - name: "Extract apiman"
+      command: "unzip apiman.zip -d /usr/local/wildfly-9.0.2.Final"
+      args:
+        chdir: "/usr/local"
+        creates: "/usr/local/wildfly-9.0.2.Final/apiman"
+
+    - name: "Put configuration in place"
+      copy: src="files/standalone-apiman.xml"
+            dest="/usr/local/wildfly-9.0.2.Final/standalone-apiman.xml"
+            mode=0444
+
+    - name: "Ensure the apiman user is present"
+      user: name="apiman" comment="apiman system user"
+            system="yes" state="present"
+
+    - name: "Set ownerships"
+      file: path="{{ item }}" owner="apiman" group="apiman" recurse="yes"
+      with_items:
+        - "/usr/local/wildfly-9.0.2.Final/"
+
+    - name: "Ensure apiman service script is present"
+      copy: src="files/apiman.service"
+            dest="/etc/systemd/system/apiman.service"
+            mode=444 owner=root group=root
+      notify:
+        - "Restart apiman"
+
+    - name: "Ensure apiman is running"
+      service: name="apiman" state="running" enabled="yes"
+  handlers:
+    - name: "Restart apiman"
+      service: name="apiman" state="restarted"

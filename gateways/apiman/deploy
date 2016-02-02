@@ -1,0 +1,10 @@
+#!/bin/bash -x
+
+# Check if Ansible is installed
+which ansible-playbook 2>&1 > /dev/null
+if [ $? -ne 0 ]; then
+        # Install Ansible if it's not 
+        yum install -y ansible
+fi
+
+ansible-playbook -c local -i "localhost," setup.yml
