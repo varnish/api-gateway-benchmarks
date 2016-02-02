@@ -1,0 +1,6 @@
+#!/bin/bash -x
+
+cd /usr/local/wildfly-9.0.2.Final/bin
+
+# Create admin user
+./add-user.sh -e -u admin -p admin
