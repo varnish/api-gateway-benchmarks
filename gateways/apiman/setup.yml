@@ -34,7 +34,7 @@
 
     - name: "Put configuration in place"
       copy: src="files/standalone-apiman.xml"
-            dest="/usr/local/wildfly-9.0.2.Final/standalone-apiman.xml"
+            dest="/usr/local/wildfly-9.0.2.Final/standalone/configuration/standalone-apiman.xml"
             mode=0444
 
     - name: "Ensure the apiman user is present"

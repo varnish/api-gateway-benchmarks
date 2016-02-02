@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/usr/local/wildfly-9.0.2.Final
-ExecStart=/usr/local/wildfly-9.0.2.Final/bin/standalone.sh -c /usr/local/wildfly-9.0.2.Final/standalone-apiman.xml
+ExecStart=/usr/local/wildfly-9.0.2.Final/bin/standalone.sh -c standalone-apiman.xml
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=apiman
