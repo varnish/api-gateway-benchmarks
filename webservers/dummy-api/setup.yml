@@ -4,6 +4,16 @@
     GOPATH: "/usr/local/go"
     #PATH: "${PATH}:${GOPATH}/bin"
   tasks:
+    - name: "Install disabled Centos-Base repo for RHEL7"
+      copy: src="files/centos7-base.repo" dest="/etc/yum.repos.d/centos7-base.repo" mode="0444"
+      when: ansible_distribution in ['RedHat'] and
+            ansible_distribution_major_version in ['7']
+
+    - name: "Install golang with Centos repo for RHEL7"
+      yum: name="golang" enablerepo="centos7-base" state="installed"
+      when: ansible_distribution in ['RedHat'] and
+            ansible_distribution_major_version in ['7']
+
     - name: "Ensure tools are installed"
       yum: name="{{ item }}" state="installed"
       with_items:

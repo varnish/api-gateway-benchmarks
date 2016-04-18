@@ -56,7 +56,7 @@ resource "null_resource" "hostsfile" {
         aws_instance_gateway   = "${aws_instance.apiperf-gateway.private_ip}"
     }
     connection {
-        user = "centos"
+        user = "${lookup(var.user_name, var.aws_ec2_ami)}"
     }
     provisioner "file" {
         connection {
@@ -74,7 +74,6 @@ resource "null_resource" "hostsfile" {
         ]
     }
     connection {
-        user = "centos"
         host = "${aws_instance.apiperf-gateway.public_ip}"
     }
     provisioner "file" {

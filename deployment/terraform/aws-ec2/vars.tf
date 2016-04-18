@@ -40,3 +40,11 @@ variable "instance_types" {
         "consumer"  = "m3.medium"
     }
 }
+
+variable "user_name" {
+    type = "map"
+    default = {
+        "ami-61bbf104" = "centos"
+        "ami-6a34b619" = "ec2-user"
+    }
+}
