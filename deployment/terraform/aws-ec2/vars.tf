@@ -15,7 +15,11 @@ variable "aws_ec2_region" {
 # https://aws.amazon.com/marketplace/pp/B00O7WM7QW 
 variable "aws_ec2_ami" {
     description = "The EC2 AMI to use"
-    default = "ami-61bbf104"
+    default = {
+        "gateway"   = "ami-6d1c2007"
+        "webserver" = "ami-6d1c2007"
+        "consumer"  = "ami-6d1c2007"
+    }
 }
 
 variable "sshkey" {
@@ -42,9 +46,7 @@ variable "instance_types" {
 }
 
 variable "user_name" {
-    type = "map"
     default = {
-        "ami-61bbf104" = "centos"
-        "ami-6a34b619" = "ec2-user"
+        "ami-6d1c2007" = "centos"
     }
 }
