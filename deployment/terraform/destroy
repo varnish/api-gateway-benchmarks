@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+    echo "Usage:"
+    echo "  destroy cloud-provider-name [custom-terraform-var-file]"
+    echo "Examples:"
+    echo "  destroy aws-ec2"
+    echo "  destroy digitalocean"
+    echo "  destroy aws-ec2 terraform.tfvars.mine"
+fi
+
+if [ -d "$1" ]; then
+    terraform destroy -var-file="$2" "$1"
+fi

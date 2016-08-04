@@ -41,9 +41,7 @@ The setup consists of three nodes:
 
 ### Custom setups
 
-The ec2 regiom, instance types and ami to use is configured with variables, default is **m3.medium** and the official Centos7 AMI.
-
-::
+The ec2 region, instance types and ami to use is configured with variables, default is **m3.medium** and the official Centos7 AMI:
 
     aws_ec2_region = "us-east-1"
     aws_ec2_ami = "ami-6d1c2007" (Centos7 64bit)
@@ -54,22 +52,20 @@ The ec2 regiom, instance types and ami to use is configured with variables, defa
 ### Quickstart DigitalOcean
 
 1. Edit the terraform.tfvars file and insert a valid Digitalocean API key and sshkey
-2. Run ``./deploy digitalocean`` to run start instances, provision and run tests
-3. Run ``terraform destroy digitalocean`` to remove all Digitalocean resources created by ``deploy``
+2. Run ``./deploy digitalocean [terraform.tfvars.mine]`` to run start instances, provision and run tests
+3. Run ``./destroy digitalocean [terraform.tfvars.mine]`` to remove all Digitalocean resources created by ``deploy``
 
 ### Manual Digitalocean run
 
 1. Edit the terraform.tfvars file and insert a valid API key and sshkey
-2. Run ``terraform plan digitalocean`` to verify the plan
-3. Run ``terraform apply digitalocean`` to spin up instances
+2. Run ``terraform plan digitalocean [-var-file=terraform.tfvars.mine]`` to verify the plan
+3. Run ``terraform apply digitalocean [-var-file=terraform.tfvars.mine]`` to spin up instances
 4. Run ``ansible-playbook --inventory-file=bin/terraform-inventory playbook.yml``
-5. Run ``terraform destroy digitalocean`` to remove all resources
+5. Run ``terraform destroy digitalocean [-var-file=terraform.tfvars.mine]`` to remove all resources
 
 ### Custom setups
 
-The droplet location, size and image to use is configured in ``digitalocean/vars.tf``, defaults are:
-
-::
+The droplet location, size and image to use is configured in with variables, defaults are:
 
     droplet_region = "ams3" (Amsterdam)
     droplet_image = "centos-7-0-x64"
